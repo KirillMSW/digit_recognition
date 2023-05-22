@@ -25,6 +25,12 @@ def recognize(img):
     print(top, bottom, left, right)
 
     # Extract Region of Interest from unblurred original
+    if abs(left-right)<abs(top-bottom):
+        diff = round ((abs(top-bottom) - abs(left-right))/2)
+        left-=diff
+        right+=diff
+
+
     ROI = orig[top:bottom, left:right]
     img = Image.fromarray(ROI)
     img = img.resize((28,28))
@@ -40,14 +46,13 @@ def recognize(img):
     # img = img.convert('1')
     # img=ImageOps.invert(img)
 
-    img.show()
 
     img = np.array(img)
 
 
 
 
-    Image.fromarray(ROI).save('result.png')
+    # Image.fromarray(ROI).save('result.png')
     # plt.imshow(img.reshape(28, 28),cmap='Greys')
     # изменение размерности для поддержки модели ввода и нормализации
     img = img.reshape(1,28,28,1)
